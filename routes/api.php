@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\ProfileApiController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\Auth\AuthApiController;
 use App\Http\Controllers\API\FoodRiskController;
+use App\Http\Controllers\API\ProfileApiController;
+use App\Http\Controllers\API\Auth\AuthApiController;
 use App\Http\Controllers\API\CustomFoodApiController;
 use App\Http\Controllers\API\LogSymptomApiController;
 use App\Http\Controllers\API\PersonalTriggerFoodController;
@@ -64,6 +64,7 @@ Route::middleware('auth:sanctum')->prefix('personal-trigger-food')->group(functi
     Route::delete('/delete/{id}', [PersonalTriggerFoodController::class, 'deleteFoodTrigger']); // Delete food
 });
 
+
 // ------------------------
 //  Personal profile
 // ------------------------
@@ -71,4 +72,3 @@ Route::middleware('auth:sanctum')->prefix('profile')->group(function () {
     Route::get('/', [ProfileApiController::class, 'profileDetails']);
     Route::post('/update', [ProfileApiController::class, 'profileUpdate']);
 });
-
