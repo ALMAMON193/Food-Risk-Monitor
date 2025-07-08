@@ -14,8 +14,8 @@ jobs:
       - name: FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: yugayo@yugayo.softvencefsd.xyz
-          username: ftp.softvencefsd.xyz
+          server: ftp.softvencefsd.xyz
+          username: yugayo@yugayo.softvencefsd.xyz
           password: lTw_aK6hk*1oeI3E
 
 
