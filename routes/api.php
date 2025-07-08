@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AnalyticsApiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\FoodRiskController;
 use App\Http\Controllers\API\ProfileApiController;
@@ -72,3 +73,9 @@ Route::middleware('auth:sanctum')->prefix('profile')->group(function () {
     Route::get('/', [ProfileApiController::class, 'profileDetails']);
     Route::post('/update', [ProfileApiController::class, 'profileUpdate']);
 });
+
+// ------------------------
+// Analytics route
+// ------------------------
+Route::middleware('auth:sanctum')->get('/analytics', [AnalyticsApiController::class, 'index']);
+

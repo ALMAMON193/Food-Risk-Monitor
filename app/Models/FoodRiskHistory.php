@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(string $string, $userId)
+ */
 class FoodRiskHistory extends Model
 {
     protected $fillable = [
@@ -16,4 +19,9 @@ class FoodRiskHistory extends Model
         'risk_score',
         'risk_label',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

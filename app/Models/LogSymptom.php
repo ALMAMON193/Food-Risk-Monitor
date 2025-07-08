@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(string $string, $userId)
+ */
 class LogSymptom extends Model
 {
     use HasFactory;
@@ -13,6 +16,7 @@ class LogSymptom extends Model
 
     protected $fillable = [
         'user_id',
+        'food_name',
         'bloating',
         'gas',
         'pain',

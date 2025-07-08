@@ -11,6 +11,7 @@ class LogSymptomResource extends JsonResource
     public function toArray($request): array
     {
         return [
+            'food_name'           =>$this->food_name ?? '',
             'bloating'            => $this->bloating ?? '',
             'gas'                 =>$this->gas ?? '',
             'pain'                =>$this->pain ?? '',

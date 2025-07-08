@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('log_symptoms', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('food_name');
             $table->unsignedTinyInteger('bloating')->nullable();
             $table->unsignedTinyInteger('gas')->nullable();
             $table->unsignedTinyInteger('pain')->nullable();

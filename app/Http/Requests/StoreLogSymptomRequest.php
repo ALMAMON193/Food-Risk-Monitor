@@ -14,9 +14,10 @@ class StoreLogSymptomRequest extends FormRequest
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
+            'food_name' => 'required',
             'bloating' => 'required|numeric|min:0|max:5',
             'gas' => 'required|numeric|min:0|max:5',
             'pain' => 'required|numeric|min:0|max:5',
