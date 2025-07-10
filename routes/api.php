@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->prefix('foods')->group(function () {
 // Public routes (optional auth)
 Route::get('foods/quantity',  [FoodRiskController::class, 'quantityList']);     // Get distinct quantities
 Route::get('foods/food-name', [FoodRiskController::class, 'foodNameList']);     // Get distinct food names
+Route::get('foods', [FoodRiskController::class, 'allFoods']);
 
 
 // ------------------------

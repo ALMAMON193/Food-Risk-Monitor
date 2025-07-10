@@ -12,6 +12,7 @@ use App\Models\FoodRiskHistory;
 use App\Traits\ApiResponse;
 use App\Helpers\NumberHelper;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 
@@ -143,11 +144,18 @@ class FoodRiskController extends Controller
     /**
      * List all distinct serving quantities.
      */
-    public function quantityList(): JsonResponse
+    public function quantityList(Request $request): JsonResponse
     {
         try {
-            $quantity = Food::select('serving_quantity')->distinct()->get();
-            return $this->sendResponse($quantity, __('Quantity list retrieved successfully.'));
+            $query = Food::query();
+
+            if ($request->has('food_name')) {
+                $query->where('food_name', $request->food_name);
+            }
+
+            $quantities = $query->select('serving_quantity')->distinct()->get();
+
+            return $this->sendResponse($quantities, __('Quantity list retrieved successfully.'));
         } catch (Exception $e) {
             return $this->sendError(__('Failed to fetch quantity list'), ['error' => $e->getMessage()]);
         }
@@ -164,5 +172,26 @@ class FoodRiskController extends Controller
         } catch (Exception $e) {
             return $this->sendError(__('Failed to fetch food name list'), ['error' => $e->getMessage()]);
         }
+    }
+    //all food name when filter  by category
+    public function allFoods(Request $request): JsonResponse{
+        $allFoods  = Food::all();
+        // Get top 3 high, moderate, and low risk foods
+        $highRisk = Food::whereRaw('LOWER(TRIM(fodmap_rating)) = ?', ['high'])
+            ->orderByDesc('bloating_risk_standard')->get();
+
+        $moderateRisk = Food::whereRaw('LOWER(TRIM(fodmap_rating)) = ?', ['moderate'])
+            ->orderByDesc('bloating_risk_standard')->get();
+
+        $lowRisk = Food::whereRaw('LOWER(TRIM(fodmap_rating)) = ?', ['low'])
+            ->orderByDesc('bloating_risk_standard')->get();
+
+        $apiResponse = [
+            'highRisk'     => FoodRiskResource::collection($highRisk),
+            'moderateRisk' => FoodRiskResource::collection($moderateRisk),
+            'lowRisk'      => FoodRiskResource::collection($lowRisk),
+        ];
+        return $this->sendResponse($apiResponse, __('Food list retrieved successfully.'));
+
     }
 }
