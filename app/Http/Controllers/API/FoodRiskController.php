@@ -164,15 +164,32 @@ class FoodRiskController extends Controller
     /**
      * List all distinct food names.
      */
-    public function foodNameList(): JsonResponse
+    public function foodNameList(Request $request): JsonResponse
     {
         try {
-            $foodNameList = Food::select('food_name')->distinct()->get();
-            return $this->sendResponse($foodNameList, __('Food name list retrieved successfully.'));
-        } catch (Exception $e) {
-            return $this->sendError(__('Failed to fetch food name list'), ['error' => $e->getMessage()]);
+            $foodItems = Food::select('food_name', 'serving_quantity', 'us_measurement', 'metric_measurement')->get();
+
+            if ($foodItems->isEmpty()) {
+                return $this->sendError(__('No food item found.'));
+            }
+
+            // Group by food_name
+            $grouped = $foodItems->groupBy('food_name')->map(function ($items) {
+                return $items->map(function ($item) {
+                    return [
+                        'serving_quantity'    => $item->serving_quantity,
+                        'us_measurement'      => $item->us_measurement,
+                        'metric_measurement'  => $item->metric_measurement,
+                    ];
+                })->values();
+            });
+
+            return $this->sendResponse($grouped, __('Food items retrieved successfully.'));
+        } catch (\Exception $e) {
+            return $this->sendError(__('Failed to fetch food items'), ['error' => $e->getMessage()]);
         }
     }
+
     //all food name when filter  by category
     public function allFoods(Request $request): JsonResponse{
         $allFoods  = Food::all();
@@ -192,6 +209,5 @@ class FoodRiskController extends Controller
             'lowRisk'      => FoodRiskResource::collection($lowRisk),
         ];
         return $this->sendResponse($apiResponse, __('Food list retrieved successfully.'));
-
     }
 }
