@@ -20,8 +20,8 @@ class CalculateFoodRiskRequest extends FormRequest
         return [
             'food_name' => 'required|string',
             'serving_quantity'  => ['required', 'string', 'regex:/^\d+(\.\d+)?(\/\d+(\.\d+)?)?$/'],
-            'us_measurement' => 'required|in:oz',      // Only 'oz' allowed
-            'metric_measurement' => 'required|in:g,ml', // Only 'g' or 'ml' allowed
+            'us_measurement' => 'required',      // Only 'oz' allowed
+            'metric_measurement' => 'required', // Only 'g' or 'ml' allowed
             'meal_type' => 'nullable|string',
         ];
     }
