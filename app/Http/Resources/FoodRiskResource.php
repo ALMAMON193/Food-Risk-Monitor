@@ -10,6 +10,7 @@ class FoodRiskResource extends JsonResource
     {
         return [
             'food_name' => $this->food_name,
+            'food_category' => $this->food_category,
             'percentage' => round($this->bloating_risk_standard) . '%',
             'message' => 'Bloating rate ' . strtolower($this->fodmap_rating),
         ];
